@@ -1,16 +1,54 @@
-.map-container {
-  height: 400px;
+body {
+  margin: 0;
+  padding: 0;
+}
+.mapboxgl-ctrl-top-right .mapboxgl-ctrl {
+  margin: 53px 147px 0 0;
+}
+.mapboxgl-ctrl-group:not(:empty) {
+  box-shadow: none;
+  border: 1px solid #eab742;
+  border-radius: 5px;
+}
+.mapboxgl-ctrl-group button:last-child {
+  border-radius: 0 4px 4px 0px;
 }
 
-.sidebar {
-  background-color: rgba(35, 55, 75, 0.9);
-  color: #fff;
-  padding: 6px 12px;
-  font-family: monospace;
-  z-index: 1;
+.mapboxgl-ctrl-group button + button {
+  border-top: none;
+  border-left: 1px solid #eab742;
+}
+
+.butns {
   position: absolute;
-  top: 0;
-  left: 0;
-  margin: 12px;
-  border-radius: 4px;
+  top: 53px;
+  right: 226px;
+  z-index: 2;
+  display: flex;
+}
+
+.butns button {
+  width: 123px;
+  height: 31px;
+  margin-left: 8px;
+  color: #fff;
+  border: 1px solid #eab742;
+  background: #eab742;
+  border-radius: 5px;
+  transition: 0.3s ease;
+}
+
+.butns button:hover {
+  cursor: pointer;
+  border: 1px solid #d1a339;
+  background: #d1a339;
+}
+
+.butns button.notActive {
+  color: #eab742;
+  background: #fff;
+}
+
+.butns button.notActive:hover {
+  background: rgb(245, 245, 245);
 }
