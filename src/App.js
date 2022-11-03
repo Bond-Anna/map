@@ -1,11 +1,17 @@
 import React, { useRef, useState } from 'react';
-import Map, { Marker, NavigationControl } from 'react-map-gl';
+import Map, { NavigationControl, Source, Layer, Marker } from 'react-map-gl';
+import {
+  clusterLayer,
+  clusterCountLayer,
+  unclusteredPointLayer,
+} from './layers.js';
+import { data, eventsCoord, atractionsCoord, restCoord } from './data';
 import RedPin from './sources/pin.png';
 import YellowPin from './sources/yellowPin.svg';
 import GreyPin from './sources/greyPin.svg';
 
 export default function App() {
-  const mapRef = useRef();
+  const mapRef = useRef(null);
   const [viewState, setViewState] = useState({
     longitude: 35.2255,
     latitude: 31.7849,
@@ -16,25 +22,6 @@ export default function App() {
   const [showAtractions, setShowAtractions] = useState(true);
   const [showRests, setShowRests] = useState(true);
 
-  const eventsCoord = [
-    { long: 35.235556, lat: 31.777778 },
-    { long: 35.21336, lat: 31.76846 },
-    { long: 35.223842, lat: 31.748633 },
-    { long: 35.23146, lat: 31.782827 },
-  ];
-
-  const atractionsCoord = [
-    { long: 35.223606, lat: 31.779146 },
-    { long: 35.244048, lat: 31.779474 },
-    { long: 35.229978, lat: 31.783853 },
-  ];
-
-  const restCoord = [
-    { long: 35.176944, lat: 31.749444 },
-    { long: 35.175426, lat: 31.74627 },
-    { long: 35.244167, lat: 31.7925 },
-  ];
-
   return (
     <Map
       {...viewState}
@@ -42,6 +29,7 @@ export default function App() {
       style={{ width: '100vw', height: '100vh' }}
       id="map"
       ref={mapRef}
+      maxZoom={20}
       mapStyle="mapbox://styles/sparkangel/cl9i824d7003l15nwjrwbhsck"
       mapboxAccessToken={process.env.REACT_APP_MAPBOX_ACCESS_TOKEN}
     >
@@ -108,6 +96,7 @@ export default function App() {
             />
           </Marker>
         ))}
+
       {showRests &&
         restCoord.map(it => (
           <Marker
@@ -126,6 +115,18 @@ export default function App() {
             />
           </Marker>
         ))}
+      <Source
+        id="earthquakes"
+        type="geojson"
+        data={data}
+        cluster={true}
+        clusterMaxZoom={9}
+        clusterRadius={50}
+      >
+        <Layer {...clusterLayer} />
+        <Layer {...clusterCountLayer} />
+        <Layer {...unclusteredPointLayer} />
+      </Source>
     </Map>
   );
 }
